@@ -1,0 +1,132 @@
+v-container(
+  fluid
+  data-cy = "32"
+)
+  v-app-bar(
+    dark
+    color   = "primary"
+    data-cy = "33"
+  )
+    v-btn(
+      @click  = "goToHome"
+      title   = "Home"
+      data-cy = "34"
+    )
+      v-icon(
+        icon = "mdi-home"
+        size = "x-large"
+      )
+    v-app-bar-title
+      v-icon.mr-2(icon = "mdi-file-multiple")
+      | PPT History
+    v-spacer
+  v-container.pa-4(data-cy = "35")
+    v-card(data-cy = "36")
+      v-card-title.primary.white--text(data-cy = "37")
+        v-icon.mr-2(icon = "mdi-history")
+        | Your Generated Presentations
+    v-card.mt-4(data-cy = "38")
+      v-card-text(data-cy = "39")
+        div.text-center.pa-8(
+          v-if    = "presentations.length === 0"
+          data-cy = "40"
+        )
+          v-icon(
+            size  = "64"
+            color = "grey"
+            icon  = "mdi-file-remove"
+          )
+          div.title.mt-4.grey--text No presentations yet
+          div.subtitle-1.mt-2.grey--text Start creating presentations from the home page!
+          v-btn.mt-4.color-primary(
+            @click  = "goToHome"
+            data-cy = "41"
+          )
+            v-icon.left(icon = "mdi-home")
+            | Go to Home
+        v-list(v-else data-cy = "42")
+          v-list-item.mb-2(
+            v-for     = "presentation, index in presentations"
+            :key      = "index"
+            elevation = "2"
+          )
+            v-card.outlined(data-cy = "43")
+              v-card-title.primary--text(data-cy = "43")
+                v-icon.mr-2(icon = "mdi-file-powerpoint")
+                | {{ presentation.title }}
+                v-btn(
+                  @click       = "downloadPresentation(presentation)"
+                  data-cy      = "44"
+                  prepend-icon = "mdi-download"
+                  variant      = "text"
+                )
+              v-card-text
+                div.body-2.mb-2 {{ presentation.slides?.length || 0 }} slides
+                v-chip.mr-1.mb-1.grey-lighten-4(
+                  v-for = "slide, idx in presentation.slides?.slice(0, 3)"
+                  :key  = "idx"
+                ) {{ slide.title }}
+              v-card-actions
+                v-btn(
+                  @click  = "previewPresentation(presentation)"
+                  data-cy = "45"
+                  variant = "text"
+                )
+                  v-icon(icon = "mdi-eye")
+                  | Preview
+                v-btn.text.small.color-primary(
+                  @click  = "editPresentation(presentation)"
+                  data-cy = "55"
+                  variant = "text"
+                )
+                  v-icon(icon = "mdi-pencil")
+                  | Edit
+    v-dialog(
+      v-model   = "showPreview"
+      max-width = "1200"
+      data-cy   = "46"
+    )
+      v-card(
+        data-cy = "47"
+        v-if    = "selectedPresentation"
+      )
+        v-card-title(data-cy = "48")
+          | {{ selectedPresentation.title }} - Preview
+        v-card-text.pa-4(
+          style   = "max-height: 70vh; overflow-y: auto"
+          data-cy = "50"
+        )
+          v-list
+            v-list-item.mb-4(
+              v-for = "slide, index in selectedPresentation.slides"
+              :key  = "index"
+            )
+              v-card
+                v-card-title.py-2.primary--text(data-cy = "51")
+                  v-icon.mr-2(
+                    icon = "mdi-file-powerpoint"
+                    size = "small"
+                  )
+                  | {{ slide.title }}
+                v-card-text.py-2
+                  div.my-2(
+                    v-for = "item, idx in slide.content"
+                    :key  = "idx"
+                  )
+                    span(
+                      v-if = "typeof item === 'object' && item.header" class="font-weight-bold"
+                    ) {{ item.header }}
+                    span {{ typeof item === 'string' ? item : (item.text || '') }}
+        v-card-actions(data-cy = "52")
+          v-spacer
+          v-btn(
+            @click  = "closePreview"
+            data-cy = "53"
+            text    = "Close"
+          )
+          v-btn.color-primary(
+            @click       = "downloadPreview"
+            prepend-icon = "mdi-file-download"
+            data-cy      = "54"
+            text         = "Download PPT"
+          )

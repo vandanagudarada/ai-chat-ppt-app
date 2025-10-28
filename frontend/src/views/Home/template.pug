@@ -1,0 +1,67 @@
+v-container(
+  fluid
+  data-cy = "1"
+)
+  v-app-bar(
+    dark
+    color   = "primary"
+    data-cy = "2"
+  )
+    v-app-bar-title
+      v-icon.mr-2(icon="mdi-presentation")
+      | AI Chat PPT Generator
+    v-spacer
+  v-container.d-flex.align-center.justify-center(
+    style   = "height: calc(100vh - 64px);"
+    data-cy = "3"
+  )
+    v-card.text-center(
+      max-width = "600"
+      elevation = "8"
+      data-cy   = "4"
+    )
+      v-card-title.headline.primary.white--text.justify-center.pa-6(
+        data-cy = "5"
+      )
+        v-icon.mb-4(
+          size = "64"
+          icon = "mdi-presentation"
+        )
+        div AI Chat PPT Generator
+        div.subtitle-1.mt-2 Create professional presentations with AI
+      v-card-text.pa-8(data-cy = "6")
+        v-row
+          v-col.cols-12.md-6(data-cy = "7")
+            v-btn.ma-2(
+              size    = "small"
+              variant = "outlined"
+              color   = "primary"
+              @click  = "goToChat"
+              style   = "height: 120px; flex-direction: column;"
+              data-cy = "8"
+            )
+              v-icon.mb-2(
+                size = "48"
+                icon = "mdi-chat"
+              )
+              div Create New PPT
+              div.caption Start a conversation
+          v-col.cols-12.md-6(
+            data-cy = "9"
+          )
+            v-btn.ma-2(
+              data-cy = "10"
+              size    = "small"
+              variant = "outlined"
+              color   = "primary"
+              @click  = "goToHistory"
+              style   = "height: 120px; flex-direction: column;"
+            )
+              v-icon.mb-2(
+                size = "48"
+                icon = "mdi-file-multiple"
+              )
+              div View All PPTs
+              div.caption Browse history
+      v-card-actions.pa-4.justify-center(data-cy = "11")
+        div.caption.grey--text Choose an option to get started
